@@ -9,30 +9,32 @@ import java.util.Date;
  */
 public class DateTimeUtil {
 
-    // Time Formatter for Seconds Only format
+    /**
+     * Time Formatter for Seconds Only format
+     */
     public static SimpleDateFormat simpleDateFormatSecs = new SimpleDateFormat("ss");
 
-    // Time Formatter for Mins, Secs Only format
+    /** Time Formatter for Mins, Secs Only format */
     public static SimpleDateFormat simpleDateFormatMinsSecs = new SimpleDateFormat("mm:ss");
 
-    // Time Formatter for Mins, Secs Only format
+    /** Time Formatter for Mins, Secs Only format */
     public static SimpleDateFormat simpleDateFormatHrsMinsSecs = new SimpleDateFormat("hh:mm:ss");
 
-    // Time Formatter for Days Mins, Secs Only format
+    /** Time Formatter for Days Mins, Secs Only format */
     public static SimpleDateFormat simpleDateFormatDaysHrsMinsSecs = new SimpleDateFormat("DD hh:mm:ss");
 
-    // Time Formatter for Days Mins, Secs Only format
+    /** Time Formatter for Days Mins, Secs Only format */
     public static SimpleDateFormat simpleDateFormatDaysMthsHrsMinsSecs = new SimpleDateFormat("DD-MM hh:mm:ss");
 
-    // Time Formatter for Days Mins, Secs Only format
+    /** Time Formatter for Days Mins, Secs Only format */
     public static SimpleDateFormat simpleDateFormatDaysMthsYrsHrsMinsSecs = new SimpleDateFormat("DD-MM-YYYY hh:mm:ss");
 
 
     /**
-     * Convert a date object to a String
+     * Convert a Date object to a String
      *
-     * @param date
-     * @return
+     * @param date date to be parsed into a String
+     * @return String representation of Date
      */
     public static String parseDate(Date date) {
 
@@ -47,10 +49,10 @@ public class DateTimeUtil {
     }
 
     /**
-     * Convert a String Date to a Date object
+     * Converts a String to a Date object
      *
-     * @param date
-     * @return
+     * @param date String of date to be composed into Date object
+     * @return Date object representation of String
      */
     public static Date composeDate(String date) throws ParseException {
         Date startDate;
@@ -64,6 +66,11 @@ public class DateTimeUtil {
 
     }
 
+    /**
+     * Gets the current time in miliseconds
+     *
+     * @return the current time in miliseconds
+     */
     public static long getCurrentTimeMillis() {
         return System.currentTimeMillis();
     }

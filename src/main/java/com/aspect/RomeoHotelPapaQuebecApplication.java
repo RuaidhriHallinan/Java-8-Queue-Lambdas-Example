@@ -10,6 +10,8 @@ public class RomeoHotelPapaQuebecApplication {
 
 	public static void main(String[] args) {
         SpringApplication.run(RomeoHotelPapaQuebecApplication.class, args);
+
+
     }
 
 }

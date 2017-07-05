@@ -5,29 +5,55 @@ import com.aspect.util.DateTimeUtil;
 import java.util.Date;
 
 /**
+ * This object represents a work request
+ *
  * Created by Ruaidhri on 04/07/2017.
  */
 public class WorkRequest implements Comparable<WorkRequest> {
 
     public long id;
-    public Date added;
+    public Date dataAdded;
+    public WorkRequestType workRequestType;
 
-    public WorkRequest(long id, Date dateAdded) {
+    /**
+     * Constructor for Work Requests
+     *
+     * @param id
+     * @param dateAdded
+     * @param workRequestType
+     */
+    public WorkRequest(long id, Date dateAdded, WorkRequestType workRequestType) {
         this.id = id;
-        this.added = dateAdded;
+        this.dataAdded = dateAdded;
+        this.workRequestType = workRequestType;
     }
 
+    /**
+     * Id of a
+     *
+     * @return
+     */
     public long getId() {
         return id;
     }
 
-    public Date getAdded() {
-        return added;
+    /**
+     * @return added
+     */
+    public Date getDateAdded() {
+        return dataAdded;
     }
 
+    /**
+     * Overriding compareTo in comparable interface
+     * To be used for sorting
+     *
+     * @param workRequest
+     * @return int
+     */
     @Override
-    public int compareTo(WorkRequest o) {
-        return added.compareTo(o.added);
+    public int compareTo(WorkRequest workRequest) {
+        return getDateAdded().compareTo(workRequest.getDateAdded());
     }
 
     /**
@@ -39,11 +65,17 @@ public class WorkRequest implements Comparable<WorkRequest> {
     public String toString() {
 
         // Get the Work Order Request Time
-        long timeInQ = this.added.getTime();
+        long timeInQ = this.dataAdded.getTime();
 
         String shortTimeStr = DateTimeUtil.simpleDateFormatSecs.format(DateTimeUtil.getCurrentTimeMillis() - timeInQ);
 
         return "WorkRequest [Id: " + id + ", Time in Queue: " + shortTimeStr + "]";
     }
+
+    /**
+     * enum for Work Request Types: NORMAL, VIP, PRIORITY, MANAGEMENT_OVERRIDE
+     */
+    public enum WorkRequestType {
+        NORMAL, VIP, PRIORITY, MANAGEMENT_OVERRIDE }
 }
 
