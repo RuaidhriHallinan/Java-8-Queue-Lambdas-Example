@@ -11,8 +11,8 @@ import java.util.Date;
  */
 public class WorkRequest implements Comparable<WorkRequest> {
 
-    public long id;
-    public Date dataAdded;
+    public Long id;
+    public Date dateAdded;
     public WorkRequestType workRequestType;
 
     /**
@@ -20,28 +20,39 @@ public class WorkRequest implements Comparable<WorkRequest> {
      *
      * @param id
      * @param dateAdded
+
      * @param workRequestType
      */
-    public WorkRequest(long id, Date dateAdded, WorkRequestType workRequestType) {
+    public WorkRequest(Long id, Date dateAdded, WorkRequestType workRequestType) {
         this.id = id;
-        this.dataAdded = dateAdded;
+        this.dateAdded = dateAdded;
         this.workRequestType = workRequestType;
     }
 
     /**
-     * Id of a
+     * Id of a WorkRequest
      *
-     * @return
+     * @return lond id
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
     /**
-     * @return added
+     * Date Work Request is added to the queue
+     * @return Date dateAdded
      */
     public Date getDateAdded() {
-        return dataAdded;
+        return dateAdded;
+    }
+
+    /**
+     * Returns the classification or type
+     *
+     * @return enum WorkRequestType
+     */
+    public WorkRequestType getWorkRequestType() {
+        return workRequestType;
     }
 
     /**
@@ -65,11 +76,11 @@ public class WorkRequest implements Comparable<WorkRequest> {
     public String toString() {
 
         // Get the Work Order Request Time
-        long timeInQ = this.dataAdded.getTime();
+        long timeInQ = this.dateAdded.getTime();
 
-        String shortTimeStr = DateTimeUtil.simpleDateFormatSecs.format(DateTimeUtil.getCurrentTimeMillis() - timeInQ);
+        String shortTimeStr = DateTimeUtil.simpleDateFormatDaysMthsYrsHrsMinsSecs.format(DateTimeUtil.getCurrentTimeMillis() - timeInQ);
 
-        return "WorkRequest [Id: " + id + ", Time in Queue: " + shortTimeStr + "]";
+        return "WorkRequest [Id: " + id + ", Time in Queue: " + shortTimeStr + "]" + " " + workRequestType;
     }
 
     /**

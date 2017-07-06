@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.PriorityQueue;
 
 /**
@@ -78,16 +79,24 @@ public class WorkRequestQueue {
      */
     public long dequeueTop() {
 
+        PriorityQueue<WorkRequest> newWorkRequestQueue = new PriorityQueue<WorkRequest>();
+        workRequestQueue.stream().sorted((w1, w2) -> w1.getDateAdded().compareTo(w2.getDateAdded())).forEach(e -> newWorkRequestQueue.add(e));
+
+        //Optional returns an empty object if it is not found
+        Optional<WorkRequest> wr = newWorkRequestQueue.stream().findFirst();
+
+        if (wr != null) {
+            workRequestQueue.remove(wr);
+        }
+
         //This method retrieves and removes the head of this queue,
         // or returns null if this queue is empty.
-        WorkRequest wr = workRequestQueue.poll();
+        //WorkRequest wr = workRequestQueue.poll();
 
         //TODO is this sort needed, should be sorted? Do you sort after the poll/delete?
         Util.sortPriorityQueue(workRequestQueue);
 
-        //This method removes a single instance of the specified element from this queue,
-        // if it is present.
-        return wr.getId();
+        return wr.get().getId();
     }
 
     /**
