@@ -102,31 +102,36 @@ public class WorkRequestTests {
 
     }
 
-
-    //https://www.youtube.com/watch?v=MROCaYEmb6Y
     @Test
-    public void java8_lambda_sort_by_class() throws InterruptedException {
+    public void java8_lambda_sort_two_comparators_type_and_rank() throws InterruptedException {
 
-        workRequests.stream().forEach(e -> System.out.println(e));
-
-        System.out.println("Sorting by rank?");
+        Comparator<WorkRequest> byType = (WorkRequest w1, WorkRequest w2) ->
+                w1.getWorkRequestType().compareTo(w2.getWorkRequestType());
 
         Comparator<WorkRequest> byRank = (WorkRequest w1, WorkRequest w2) ->
-                getRankBySecs(w1.getWorkRequestType(), w1.getDateAdded().getTime() / 1000)
-                        .compareTo(getRankBySecs(w2.getWorkRequestType(), w2.getDateAdded().getTime() / 1000));
+                getRankBySecs(w1.getWorkRequestType(), w1.getDateAdded())
+                        .compareTo(getRankBySecs(w2.getWorkRequestType(), w2.getDateAdded()));
 
-        workRequests.stream().sorted(byRank).forEach(e -> System.out.println(e));
-
-//       workRequests.stream().sorted((w1, w2) ->
-//                getRankBySecs(w1.getWorkRequestType(), w1.getDateAdded().getTime()/1000)
-//                        .compareTo(getRankBySecs(w2.getWorkRequestType(), w2.getDateAdded().getTime()/1000)))
-//                            .forEach(e -> System.out.println(e));
-
+        workRequests.stream().sorted(byType.thenComparing(byRank)).forEach(e -> System.out.println(e));
 
     }
 
 
-    public Long getRankBySecs(WorkRequestType type, long secondsInQueue) {
+    //https://www.youtube.com/watch?v=MROCaYEmb6Y
+    @Test
+    public void java8_lambda_sort_by_class_reverse() throws InterruptedException {
+
+        Comparator<WorkRequest> byRank = (WorkRequest w1, WorkRequest w2) ->
+                getRankBySecs(w2.getWorkRequestType(), w2.getDateAdded())
+                        .compareTo(getRankBySecs(w1.getWorkRequestType(), w1.getDateAdded()));
+
+        workRequests.stream().sorted(byRank).forEach(e -> System.out.println(e));
+    }
+
+
+    public Long getRankBySecs(WorkRequestType type, Date dateAdded) {
+
+        Long secondsInQueue = (new Date().getTime() - dateAdded.getTime()) / 1000;
 
         // get the natural logarithm for x
         //System.out.println("Math.log(secondsInQueue)= " + Math.log(secondsInQueue));
@@ -177,17 +182,17 @@ public class WorkRequestTests {
         millis = dateAdded.getTime() - 382;
         workRequests.add(new WorkRequest(15l, new Date(millis), Util.getWorkRequestType(15l)));
         millis = dateAdded.getTime() - 1479;
-        workRequests.add(new WorkRequest(13l, new Date(millis), Util.getWorkRequestType(13l)));
+        workRequests.add(new WorkRequest(20l, new Date(millis), Util.getWorkRequestType(20l)));
         millis = dateAdded.getTime() - 3861;
         workRequests.add(new WorkRequest(5l, new Date(millis), Util.getWorkRequestType(5l)));
         millis = dateAdded.getTime() - 5571;
         workRequests.add(new WorkRequest(4l, new Date(millis), Util.getWorkRequestType(4l)));
         millis = dateAdded.getTime() - 7764;
-        workRequests.add(new WorkRequest(17l, new Date(millis), Util.getWorkRequestType(17l)));
+        workRequests.add(new WorkRequest(10l, new Date(millis), Util.getWorkRequestType(10l)));
         millis = dateAdded.getTime() - 845;
         workRequests.add(new WorkRequest(1l, new Date(millis), Util.getWorkRequestType(1l)));
         millis = dateAdded.getTime() - 1449;
-        workRequests.add(new WorkRequest(19l, new Date(millis), Util.getWorkRequestType(19l)));
+        workRequests.add(new WorkRequest(30l, new Date(millis), Util.getWorkRequestType(30l)));
         millis = dateAdded.getTime() - 1032;
         workRequests.add(new WorkRequest(3l, new Date(millis), Util.getWorkRequestType(3l)));
         millis = dateAdded.getTime() - 1421;

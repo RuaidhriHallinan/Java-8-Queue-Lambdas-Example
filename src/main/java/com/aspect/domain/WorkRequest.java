@@ -78,9 +78,9 @@ public class WorkRequest implements Comparable<WorkRequest> {
         // Get the Work Order Request Time
         long timeInQ = this.dateAdded.getTime();
 
-        String shortTimeStr = DateTimeUtil.simpleDateFormatDaysMthsYrsHrsMinsSecs.format(DateTimeUtil.getCurrentTimeMillis() - timeInQ);
+        String shortTimeStr = String.valueOf((DateTimeUtil.getCurrentTimeMillis() - timeInQ) / 1000);
 
-        return "WorkRequest [Id: " + id + ", Time in Queue: " + shortTimeStr + "]" + " " + workRequestType;
+        return "WorkRequest [Id: " + id + ", Time in Queue: " + shortTimeStr + " secs ]" + " " + workRequestType;
     }
 
     /**
