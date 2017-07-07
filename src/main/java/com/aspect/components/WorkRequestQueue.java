@@ -31,7 +31,7 @@ public class WorkRequestQueue {
             if (workRequestQueue != null) {
 
                 for (WorkRequest wr : workRequestQueue) {
-                    if (workRequest.getId() == wr.getId()) {
+                    if (workRequest.getId().equals(wr.getId())) {
                         return false;
                     }
                 }
@@ -60,7 +60,7 @@ public class WorkRequestQueue {
 
         if (workRequestQueue != null) {
             for (WorkRequest wr : workRequestQueue) {
-                if (wr.getId() == id) {
+                if (wr.getId().equals(id)) {
                     workRequestQueue.remove(wr);
                     Util.sortPriorityQueue(workRequestQueue);
                     return true;

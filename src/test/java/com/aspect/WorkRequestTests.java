@@ -10,6 +10,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Optional;
 import java.util.PriorityQueue;
+import java.util.function.Predicate;
 
 import static org.junit.Assert.assertEquals;
 
@@ -113,20 +114,50 @@ public class WorkRequestTests {
                         .compareTo(getRankBySecs(w2.getWorkRequestType(), w2.getDateAdded()));
 
         workRequests.stream().sorted(byType.thenComparing(byRank)).forEach(e -> System.out.println(e));
+        System.out.println(workRequests.stream().findFirst());
 
     }
 
 
     //https://www.youtube.com/watch?v=MROCaYEmb6Y
     @Test
-    public void java8_lambda_sort_by_class_reverse() throws InterruptedException {
+    public void java8_lambda_sort_by_class() throws InterruptedException {
 
         Comparator<WorkRequest> byRank = (WorkRequest w1, WorkRequest w2) ->
-                getRankBySecs(w2.getWorkRequestType(), w2.getDateAdded())
-                        .compareTo(getRankBySecs(w1.getWorkRequestType(), w1.getDateAdded()));
+                getRankBySecs(w1.getWorkRequestType(), w1.getDateAdded())
+                        .compareTo(getRankBySecs(w2.getWorkRequestType(), w2.getDateAdded()));
 
         workRequests.stream().sorted(byRank).forEach(e -> System.out.println(e));
+        System.out.println(workRequests.stream().findFirst());
     }
+
+
+    //https://www.youtube.com/watch?v=Y1M05uKmgIg
+    @Test
+    public void java8_lambda_filter_type() throws InterruptedException {
+
+        System.out.println("NORMAL LIST");
+        Predicate<WorkRequest> normal = (wr) -> wr.getWorkRequestType() == WorkRequestType.NORMAL;
+        workRequests.stream().filter(normal).forEach(ca -> System.out.println(ca + " - Sort using new Normal Rank function"));
+
+        System.out.println("VIP LIST");
+        Predicate<WorkRequest> vip = (wr) -> wr.getWorkRequestType() == WorkRequestType.VIP;
+        workRequests.stream().filter(vip).forEach(ca -> System.out.println(ca + " - Sort using VIP Rank function"));
+
+        System.out.println("PRIORITY LIST");
+        Predicate<WorkRequest> priority = (ca) -> ca.getWorkRequestType() == WorkRequestType.PRIORITY;
+        workRequests.stream().filter(priority).forEach(ca -> System.out.println(ca + " - Sort using Priority Rank function"));
+
+        System.out.println("MANAGEMENT LIST");
+        Predicate<WorkRequest> management = (ca) -> ca.getWorkRequestType() == WorkRequestType.MANAGEMENT_OVERRIDE;
+        workRequests.stream().filter(management).forEach(ca -> System.out.println(ca + " - Sort using Management Rank function"));
+
+    }
+
+
+
+
+
 
 
     public Long getRankBySecs(WorkRequestType type, Date dateAdded) {
