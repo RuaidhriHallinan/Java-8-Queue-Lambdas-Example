@@ -56,7 +56,7 @@ public class WorkOrderRequestService {
      *
      * @return sorted list of IDs of work requests
      */
-    public List<Integer> getWorkOrderIDs() {
+    public List<Long> getWorkOrderIDs() {
         return workOrderRequest.getWorkOrderIDs();
     }
 
@@ -71,12 +71,12 @@ public class WorkOrderRequestService {
     }
 
     /**
-     * Calculates the average (mean) wait time of objects in teh queue
+     * Calculates the average (mean) wait time of objects in seconds
      *
      * @param currentDate
      * @return average wait time in Date object
      */
-    public Date getWaitTime(Date currentDate) {
+    public Long getWaitTime(Date currentDate) {
         return workOrderRequest.getWaitTime(currentDate);
     }
 }

@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.PriorityQueue;
 
 /**
@@ -44,8 +43,6 @@ public class WorkRequestQueue {
         }
         workRequestQueue.add(workRequest);
 
-        Util.sortPriorityQueue(workRequestQueue);
-
         return true;
 
     }
@@ -62,7 +59,6 @@ public class WorkRequestQueue {
             for (WorkRequest wr : workRequestQueue) {
                 if (wr.getId().equals(id)) {
                     workRequestQueue.remove(wr);
-                    Util.sortPriorityQueue(workRequestQueue);
                     return true;
                 }
             }
@@ -71,32 +67,15 @@ public class WorkRequestQueue {
         return false;
     }
 
-
     /**
      * Removes the first or top WorkRequest from the PriorityQueue
      *
      * @return true or false depending on successfully removing top work request from queue
      */
     public long dequeueTop() {
-
-        PriorityQueue<WorkRequest> newWorkRequestQueue = new PriorityQueue<WorkRequest>();
-        workRequestQueue.stream().sorted((w1, w2) -> w1.getDateAdded().compareTo(w2.getDateAdded())).forEach(e -> newWorkRequestQueue.add(e));
-
-        //Optional returns an empty object if it is not found
-        Optional<WorkRequest> wr = newWorkRequestQueue.stream().findFirst();
-
-        if (wr != null) {
-            workRequestQueue.remove(wr);
-        }
-
-        //This method retrieves and removes the head of this queue,
-        // or returns null if this queue is empty.
-        //WorkRequest wr = workRequestQueue.poll();
-
-        //TODO is this sort needed, should be sorted? Do you sort after the poll/delete?
-        Util.sortPriorityQueue(workRequestQueue);
-
-        return wr.get().getId();
+        WorkRequest wr = Util.findTopWorkRequest(workRequestQueue);
+        workRequestQueue.remove(wr);
+        return wr.getId();
     }
 
     /**
@@ -104,41 +83,25 @@ public class WorkRequestQueue {
      *
      * @return list of ordered/sorted ID's of work requests
      */
-    public List<Integer> getWorkOrderIDs() {
-
-        // TODO use Lambdas here
-        // Predicates for the conditions, Stream, and forEach? etc eg
-
-        // Full filter predicate
-        //List<WorkRequest> requests = workRequests.stream().filter(fullFilterPredicate).collect(Collectors.toList());
-        //see notes
-
-        return null;
+    public List<Long> getWorkOrderIDs() {
+        return Util.getWorkOrderIds(workRequestQueue);
     }
 
     /**
-     * Retrieves the position or index of the item in the work request
+     * Retrieves the position or index of the item in the WorkRequest
      *
      * @param id of the work request
      * @return position (index) of the work request in the queue
      */
     public Integer getPosition(Long id) {
-        //TODO use Lambdas here
-        return null;
+        return Util.getWorkRequestPosition(id, workRequestQueue);
     }
 
     /**
-     * @param currentTime date passed into the request
+     * @param currentTime date passed into calculate mean before date
      * @return average (mean) wait time of items in the queue
      */
-    public Date getWaitTime(Date currentTime) {
-
-        //Stream.forEach
-        //if < beforeDate
-        //get total of items in millis
-        //get mean of items in millis
-        //convert to time in Days, Hours, Mins, Secs
-
-        return null;
+    public Long getWaitTime(Date currentTime) {
+        return Util.getWaitTime(currentTime, workRequestQueue);
     }
 }

@@ -43,20 +43,19 @@ public class WorkRequestController {
     public ResponseEntity<String> enqueueIdDate(@PathVariable("id") Long id, @PathVariable("date") String date) {
 
         if (id != null && id >= 0 && date != null) {
-
             try {
                 WorkRequest wr = new WorkRequest(id, DateTimeUtil.composeDate(date), Util.getWorkRequestType(id));
                 if (workOrderRequestService.enqueue(wr)) {
                     return new ResponseEntity(HttpStatus.OK);
                 } else {
-                    return new ResponseEntity<>("Queue already contains Id", HttpStatus.BAD_REQUEST);
+                    return new ResponseEntity<>("Queue already contains Id", HttpStatus.UNPROCESSABLE_ENTITY);
                 }
             } catch (ParseException e) {
-                return new ResponseEntity<>("Unknown error occurred", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>("Invalid Date format", HttpStatus.UNPROCESSABLE_ENTITY);
             }
 
         } else {
-            return new ResponseEntity<>("Invalid id or date parameter", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("No id or date parameter", HttpStatus.BAD_REQUEST);
         }
 
     }
@@ -75,7 +74,7 @@ public class WorkRequestController {
             if (workOrderRequestService.dequeue(id)) {
                 return new ResponseEntity(HttpStatus.OK);
             } else {
-                return new ResponseEntity<>("Empty queue", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>("Priority Queue empty", HttpStatus.NOT_FOUND);
             }
 
         } else {
@@ -99,7 +98,7 @@ public class WorkRequestController {
                 return new ResponseEntity("Removed " + id + " from the queue", HttpStatus.OK);
 
             } catch (Exception e) {
-                return new ResponseEntity(HttpStatus.BAD_REQUEST);
+                return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } else {
             return new ResponseEntity("Priority Queue empty", HttpStatus.NOT_FOUND);
@@ -115,7 +114,7 @@ public class WorkRequestController {
      */
     @RequestMapping(value = "/get/ids", method = RequestMethod.GET)
     public ResponseEntity<List<Integer>> listIds() {
-        List<Integer> workOrders = workOrderRequestService.getWorkOrderIDs();
+        List<Long> workOrders = workOrderRequestService.getWorkOrderIDs();
         return new ResponseEntity(workOrders, HttpStatus.OK);
     }
 
@@ -151,11 +150,11 @@ public class WorkRequestController {
         try {
             if (currentDateRequest != null && !currentDateRequest.isEmpty()) {
                 Date currentDate = DateTimeUtil.composeDate(currentDateRequest);
-                Date meanWait = workOrderRequestService.getWaitTime(currentDate);
-                return new ResponseEntity(DateTimeUtil.parseDate(meanWait), HttpStatus.OK);
+                Long meanWaitSecs = workOrderRequestService.getWaitTime(currentDate);
+                return new ResponseEntity(meanWaitSecs, HttpStatus.OK);
             }
         } catch (ParseException p) {
-            return new ResponseEntity("Invalid time format", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity("Invalid date format", HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         return null;
