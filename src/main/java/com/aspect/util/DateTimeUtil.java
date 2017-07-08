@@ -5,29 +5,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Created by Ruaidhri on 04/07/2017.
+ * Untility class to handle Date and Time formatting
  */
 public class DateTimeUtil {
 
     /**
-     * Time Formatter for Seconds Only format
+     * Time Formatter for Days Mins, Secs Only format
      */
-    public static SimpleDateFormat simpleDateFormatSecs = new SimpleDateFormat("ss");
-
-    /** Time Formatter for Mins, Secs Only format */
-    public static SimpleDateFormat simpleDateFormatMinsSecs = new SimpleDateFormat("mm:ss");
-
-    /** Time Formatter for Mins, Secs Only format */
-    public static SimpleDateFormat simpleDateFormatHrsMinsSecs = new SimpleDateFormat("hh:mm:ss");
-
-    /** Time Formatter for Days Mins, Secs Only format */
-    public static SimpleDateFormat simpleDateFormatDaysHrsMinsSecs = new SimpleDateFormat("DD hh:mm:ss");
-
-    /** Time Formatter for Days Mins, Secs Only format */
-    public static SimpleDateFormat simpleDateFormatDaysMthsHrsMinsSecs = new SimpleDateFormat("DD-MM hh:mm:ss");
-
-    /** Time Formatter for Days Mins, Secs Only format */
-    public static SimpleDateFormat simpleDateFormatDaysMthsYrsHrsMinsSecs = new SimpleDateFormat("DD-MM-YYYY hh:mm:ss");
+    private static SimpleDateFormat simpleDateFormatDaysMthsYrsHrsMinsSecs = new SimpleDateFormat("DD-MM-YYYY hh:mm:ss");
 
 
     /**
@@ -37,15 +22,7 @@ public class DateTimeUtil {
      * @return String representation of Date
      */
     public static String parseDate(Date date) {
-
-        try {
-            return simpleDateFormatDaysMthsYrsHrsMinsSecs.format(date);
-        } catch (Exception e) {
-            //TODO Handle this better
-            e.printStackTrace();
-        }
-
-        return null;
+        return simpleDateFormatDaysMthsYrsHrsMinsSecs.format(date);
     }
 
     /**
@@ -60,7 +37,7 @@ public class DateTimeUtil {
             startDate = simpleDateFormatDaysMthsYrsHrsMinsSecs.parse(date);
             return startDate;
         } catch (ParseException e) {
-            //TODO handle this better
+            System.out.println("Error parsing String for Date");
             throw e;
         }
 

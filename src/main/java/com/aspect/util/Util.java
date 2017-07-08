@@ -52,9 +52,9 @@ public class Util {
      * (4) Management Override IDs are always ranked ahead of all other IDs and
      * are ranked among themselves according to the number of secondsthey’ve been in the queue.
      *
-     * @param type
-     * @param dateAdded
-     * @return
+     * @param type classification of work request
+     * @param dateAdded date work request is added to queue
+     * @return rank of the Work Request
      */
     public static Long getRankBySecs(WorkRequestType type, Date dateAdded) {
 
@@ -107,33 +107,29 @@ public class Util {
             }
         }
 
-        long secs = new Date(totMillis / counter).getTime() / 1000;
-
-        return secs;
+        return new Date(totMillis / counter).getTime() / 1000;
     }
 
     /**
      * Retrieves the work request ids in order
      *
-     * @param workRequestQueue
+     * @param workRequestQueue work request queue
      * @return list if ids in working order
      */
     public static List<Long> getWorkOrderIds(PriorityQueue<WorkRequest> workRequestQueue) {
 
         List<WorkRequest> wrs = getWorkingOrder(workRequestQueue);
 
-        List<Long> ids = wrs.stream()
+        return wrs.stream()
                 .map(WorkRequest::getId).collect(Collectors.toList());
-
-        return ids;
     }
 
     /**
      * Retrieves the position of the work request based on its ID
      * Filters and sorts the queue
      *
-     * @param id
-     * @param workRequestQueue
+     * @param id identifer of the Work Request
+     * @param workRequestQueue WorkRequest queue
      * @return the index of the work request
      */
     public static Integer getWorkRequestPosition(Long id, PriorityQueue<WorkRequest> workRequestQueue) {
@@ -141,7 +137,7 @@ public class Util {
         List<WorkRequest> listForReturning = getWorkingOrder(workRequestQueue);
 
         for (int i = 0; i < listForReturning.size(); i++) {
-            if (id.equals(listForReturning.get(i))) {
+            if (id.equals(listForReturning.get(i).getId())) {
                 return i;
             }
         }
@@ -149,6 +145,12 @@ public class Util {
         return null;
     }
 
+    /**
+     * Sorts the WorkRequest queue by rank and date respectively
+     *
+     * @param workRequestQueue WorkRequest queue
+     * @return Sorted list of Work Requests
+     */
     public static List<WorkRequest> getWorkingOrder(PriorityQueue<WorkRequest> workRequestQueue) {
         Comparator<WorkRequest> byDate = (WorkRequest w1, WorkRequest w2) -> w1.getDateAdded().compareTo(w2.getDateAdded());
         Comparator<WorkRequest> byRank = (WorkRequest w1, WorkRequest w2) ->
@@ -177,10 +179,16 @@ public class Util {
         wrList.forEach(e -> System.out.println(e));
         wrList.forEach(e -> listForReturning.add(e));
 
-        return wrList;
+        return listForReturning;
 
     }
 
+    /**
+     * Finds the top of the Work Request queue
+     *
+     * @param workRequestQueue WorkRequest Queue
+     * @return Top WorkRequest of the Queue
+     */
     public static WorkRequest findTopWorkRequest(PriorityQueue<WorkRequest> workRequestQueue) {
 
         long topId = getWorkOrderIds(workRequestQueue).get(0);

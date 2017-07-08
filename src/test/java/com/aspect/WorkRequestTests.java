@@ -15,11 +15,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 /**
+ * Test class to test Util functionality
+ * Also tests logic and lambdas
+ *
  * Created by Ruaidhri on 06/07/2017.
  */
 public class WorkRequestTests {
 
-    static PriorityQueue<WorkRequest> workRequests;
+    private static PriorityQueue<WorkRequest> workRequests;
 
     /**
      * Setup the tests
@@ -36,11 +39,10 @@ public class WorkRequestTests {
     /**
      * Test to sort the Priority Queue by the length of time in queue, regardless of Class/Type
      *
-     * @throws InterruptedException
      */
     //https://www.youtube.com/watch?v=MROCaYEmb6Y
     @Test
-    public void java8_lambda_sort_length_in_queue() throws InterruptedException {
+    public void java8_lambda_sort_length_in_queue() {
 
         //Printing out values (unSorted)
         System.out.println("Printing out values (unSorted)");
@@ -63,10 +65,10 @@ public class WorkRequestTests {
 
     /**
      * Test to sort by type and rank
-     * @throws InterruptedException
+     *
      */
     @Test
-    public void java8_lambda_sort_two_comparators_type_and_rank() throws InterruptedException {
+    public void java8_lambda_sort_two_comparators_type_and_rank() {
 
         System.out.println("Note: all types are ranked, management or normal will not be sorted by time");
 
@@ -87,10 +89,10 @@ public class WorkRequestTests {
 
     /**
      * Test that filters and ranks VIP and Priority only
-     * @throws InterruptedException
+     *
      */
     @Test
-    public void java8_lambda_sort_vip_priority_by_rank() throws InterruptedException {
+    public void java8_lambda_sort_vip_priority_by_rank() {
 
         System.out.println("VIP and Priority List");
 
@@ -111,7 +113,7 @@ public class WorkRequestTests {
         System.out.println("Top Priority " + topPriority);
 
         assertEquals(topVIP, 20l);
-        assertEquals(topPriority, 3);
+        assertEquals(topPriority, 3l);
 
     }
 
@@ -135,10 +137,9 @@ public class WorkRequestTests {
      * VIP and Priority get sorted by Rank, Normal and Management Override are sorted by time in queue
      * Results are returned in order
      *
-     * @throws InterruptedException
      */
     @Test
-    public void java8_lambda_filter_results() throws InterruptedException {
+    public void java8_lambda_filter_results() {
 
         Comparator<WorkRequest> byDate = (WorkRequest w1, WorkRequest w2) -> w1.getDateAdded().compareTo(w2.getDateAdded());
         Comparator<WorkRequest> byRank = (WorkRequest w1, WorkRequest w2) ->
@@ -182,10 +183,9 @@ public class WorkRequestTests {
     /**
      * Test to calclate the average wait time in the queue
      *
-     * @throws InterruptedException
      */
     @Test
-    public void java8_calculate_wait_time() throws InterruptedException {
+    public void java8_calculate_wait_time() {
 
         Date currentDate = new Date();
         long avgSecs = Util.getWaitTime(currentDate, workRequests);
@@ -219,16 +219,15 @@ public class WorkRequestTests {
 
         int pos = Util.getWorkRequestPosition(21l, workRequests);
         System.out.println("Position of ID 21: " + pos);
-        assertEquals(pos, 7);
+        assertEquals(pos, 8);
     }
 
     /**
      * Test for polling or removing the top items off the queue
      *
-     * @throws InterruptedException
      */
     @Test
-    public void poll_test() throws InterruptedException {
+    public void poll_test() {
 
         System.out.println("First element: " + workRequests.stream().findFirst().get());
         WorkRequest wr = workRequests.poll();

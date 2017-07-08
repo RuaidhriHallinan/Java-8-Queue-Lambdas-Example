@@ -1,7 +1,6 @@
 package com.aspect.domain;
 
 import com.aspect.util.DateTimeUtil;
-import com.aspect.util.Util;
 
 import java.util.Date;
 
@@ -19,9 +18,9 @@ public class WorkRequest implements Comparable<WorkRequest> {
     /**
      * Constructor for Work Requests
      *
-     * @param id
-     * @param dateAdded
-     * @param workRequestType
+     * @param id id of the requests
+     * @param dateAdded date request was added
+     * @param workRequestType type or classification of Work Request
      */
     public WorkRequest(Long id, Date dateAdded, WorkRequestType workRequestType) {
         this.id = id;
@@ -40,6 +39,7 @@ public class WorkRequest implements Comparable<WorkRequest> {
 
     /**
      * Date Work Request is added to the queue
+     *
      * @return Date dateAdded
      */
     public Date getDateAdded() {
@@ -59,53 +59,13 @@ public class WorkRequest implements Comparable<WorkRequest> {
      * Overriding compareTo in comparable interface
      * To be used for sorting automatically by rank based on seconds in the queue
      *
-     * @param workRequest2
-     * @return int
+     * @param workRequest2 WorkRequest for comparing
+     * @return int signed comparison between values
      */
     @Override
     public int compareTo(WorkRequest workRequest2) {
-
-        if (this.getWorkRequestType() == WorkRequestType.MANAGEMENT_OVERRIDE
-                && workRequest2.getWorkRequestType() == WorkRequestType.MANAGEMENT_OVERRIDE) {
-
-            Long w1Millis = this.getDateAdded().getTime();
-            Long w2Millis = workRequest2.getDateAdded().getTime();
-
-            return w1Millis.compareTo(w2Millis);
-        }
-
-        if (this.getWorkRequestType() == WorkRequestType.NORMAL
-                && workRequest2.getWorkRequestType() == WorkRequestType.NORMAL) {
-
-            Long w1Millis = this.getDateAdded().getTime();
-            Long w2Millis = workRequest2.getDateAdded().getTime();
-
-            return w1Millis.compareTo(w2Millis);
-        }
-
-        if (this.getWorkRequestType() == WorkRequestType.MANAGEMENT_OVERRIDE
-                && workRequest2.getWorkRequestType() == WorkRequestType.NORMAL) {
-            return 1;
-        }
-
-        if (this.getWorkRequestType() == WorkRequestType.NORMAL
-                && workRequest2.getWorkRequestType() == WorkRequestType.MANAGEMENT_OVERRIDE) {
-            return -1;
-        }
-
-        Date currentTime = new Date();
-
-        Long w1RankFromSecs = Util.getRankBySecs(this.getWorkRequestType(),
-                new Date(currentTime.getTime() - this.getDateAdded().getTime()));
-
-        Long w2RankFromSecs = Util.getRankBySecs(workRequest2.getWorkRequestType(),
-                new Date(currentTime.getTime() - workRequest2.getDateAdded().getTime()));
-
-        return w1RankFromSecs.compareTo(w2RankFromSecs);
+        return getDateAdded().compareTo(workRequest2.getDateAdded());
     }
-
-
-
 
 
     /**

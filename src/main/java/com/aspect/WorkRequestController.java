@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  * WorkRequestController RESTful controller that accepts GET, PUT, POST, DELETE requests
- *
+ * <p>
  * Created by Ruaidhri on 03/07/2017.
  */
 @RestController
@@ -35,8 +35,8 @@ public class WorkRequestController {
      * An endpoint for adding a ID to queue (enqueue). This endpoint should
      * accept two parameters, the ID to enqueue and the time at which the ID
      *
-     * @param id
-     * @param date
+     * @param id identifer of WorkRequest
+     * @param date date of WorkRequest in format DD-MM-YYYY hh:mm:ss
      * @return
      */
     @RequestMapping(value = "/put/{id}/{date}", method = RequestMethod.POST)
@@ -64,8 +64,8 @@ public class WorkRequestController {
      * An endpoint for removing a specific ID from the queue.
      * This endpoint should accept a single parameter, the ID to remove.
      *
-     * @param id
-     * @return
+     * @param id identifer of WorkRequest
+     * @return Ok, not found or bad request status
      */
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<String> dequeueId(@PathVariable("id") Long id) {
@@ -74,7 +74,7 @@ public class WorkRequestController {
             if (workOrderRequestService.dequeue(id)) {
                 return new ResponseEntity(HttpStatus.OK);
             } else {
-                return new ResponseEntity<>("Priority Queue empty", HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>("Id not found", HttpStatus.NOT_FOUND);
             }
 
         } else {
@@ -86,7 +86,7 @@ public class WorkRequestController {
      * An endpoint for getting the top ID from the queue and removing it (de-queue).
      * This endpoint should return the highest ranked ID and the time
      *
-     * @return
+     * @return Ok, internal error or not found response
      */
     @RequestMapping(value = "/remove/top", method = RequestMethod.DELETE)
     public ResponseEntity<String> dequeueTop() {
@@ -110,10 +110,10 @@ public class WorkRequestController {
      * An endpoint for getting the list of IDs in the queue.
      * This endpoint should return a list of IDs sorted from highest ranked to lowest.
      *
-     * @return <List<Integer>
+     * @return List of ids
      */
     @RequestMapping(value = "/get/ids", method = RequestMethod.GET)
-    public ResponseEntity<List<Integer>> listIds() {
+    public ResponseEntity<List<Long>> listIds() {
         List<Long> workOrders = workOrderRequestService.getWorkOrderIDs();
         return new ResponseEntity(workOrders, HttpStatus.OK);
     }
@@ -123,8 +123,8 @@ public class WorkRequestController {
      * This endpoint should accept one parameter, the ID to get the position of.
      * It should return the position of the ID in the queue indexed from 0.
      *
-     * @param id
-     * @return Integer
+     * @param id identifer of WorkRequest to get position of
+     * @return Integer index of postion
      */
     @RequestMapping(value = "/get/position/{id}", method = RequestMethod.GET)
     public ResponseEntity<Integer> position(@PathVariable("id") Long id) {
@@ -142,7 +142,8 @@ public class WorkRequestController {
      * This endpoint should accept a single parameter, the current time,
      * and should return the average (mean) number of seconds that each ID has been waiting in the queue.
      *
-     * @return
+     * @param currentDateRequest time to compare dates before anc calculate mean
+     * @return Ok or unproccessable entry
      */
     @RequestMapping(value = "/get/mean/{time}", method = RequestMethod.GET)
     public ResponseEntity<String> averageTime(@PathVariable("time") String currentDateRequest) {

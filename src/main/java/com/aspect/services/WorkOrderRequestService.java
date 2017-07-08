@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * WorkOrderRequestService used to perform operations on the Priority Queue
- *
+ * <p>
  * Created by Ruaidhri on 04/07/2017.
  */
 @Service
@@ -20,13 +20,13 @@ public class WorkOrderRequestService {
      * Work request queue
      */
     @Autowired
-    WorkRequestQueue workOrderRequest;
+    private WorkRequestQueue workOrderRequest;
 
     /**
      * Enqueue a WorkRequest by id to the WorkRequestQueue
      *
-     * @param newWorkRequest
-     * @return boolean
+     * @param newWorkRequest new WorkRequest for adding to queue
+     * @return boolean true/false depending on success
      */
     public boolean enqueue(WorkRequest newWorkRequest) {
         return workOrderRequest.enqueue(newWorkRequest);
@@ -35,8 +35,8 @@ public class WorkOrderRequestService {
     /**
      * Dequeue a WorkRequest by id from the WorkRequestQueue
      *
-     * @param id
-     * @return
+     * @param id id wof WorkRequest
+     * @return true/false depending on success
      */
     public boolean dequeue(long id) {
         return workOrderRequest.dequeue(id);
