@@ -1,7 +1,7 @@
-package com.aspect.services;
+package com.apt.services;
 
-import com.aspect.components.WorkRequestQueue;
-import com.aspect.domain.WorkRequest;
+import com.apt.components.WorkRequestQueue;
+import com.apt.domain.WorkRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

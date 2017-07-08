@@ -1,8 +1,8 @@
-package com.aspect;
+package com.apt;
 
-import com.aspect.domain.WorkRequest;
-import com.aspect.domain.WorkRequest.WorkRequestType;
-import com.aspect.util.Util;
+import com.apt.domain.WorkRequest;
+import com.apt.domain.WorkRequest.WorkRequestType;
+import com.apt.util.Util;
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;

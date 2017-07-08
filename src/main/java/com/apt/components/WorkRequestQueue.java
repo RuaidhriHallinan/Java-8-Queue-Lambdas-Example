@@ -1,7 +1,7 @@
-package com.aspect.components;
+package com.apt.components;
 
-import com.aspect.domain.WorkRequest;
-import com.aspect.util.Util;
+import com.apt.domain.WorkRequest;
+import com.apt.util.Util;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;

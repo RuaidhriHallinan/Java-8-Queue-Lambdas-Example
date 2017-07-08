@@ -1,7 +1,7 @@
-package com.aspect.util;
+package com.apt.util;
 
-import com.aspect.domain.WorkRequest;
-import com.aspect.domain.WorkRequest.WorkRequestType;
+import com.apt.domain.WorkRequest;
+import com.apt.domain.WorkRequest.WorkRequestType;
 
 import java.util.*;
 import java.util.function.Predicate;

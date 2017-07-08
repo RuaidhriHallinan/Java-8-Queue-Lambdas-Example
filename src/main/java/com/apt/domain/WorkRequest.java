@@ -1,6 +1,6 @@
-package com.aspect.domain;
+package com.apt.domain;
 
-import com.aspect.util.DateTimeUtil;
+import com.apt.util.DateTimeUtil;
 
 import java.util.Date;
 
