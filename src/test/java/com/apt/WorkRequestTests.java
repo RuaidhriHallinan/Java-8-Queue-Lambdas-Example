@@ -42,7 +42,7 @@ public class WorkRequestTests {
      */
     //https://www.youtube.com/watch?v=MROCaYEmb6Y
     @Test
-    public void java8_lambda_sort_length_in_queue() {
+    public void lambda_sort_length_in_queue() {
 
         //Printing out values (unSorted)
         System.out.println("Printing out values (unSorted)");
@@ -68,7 +68,7 @@ public class WorkRequestTests {
      *
      */
     @Test
-    public void java8_lambda_sort_two_comparators_type_and_rank() {
+    public void lambda_sort_two_comparators_type_and_rank() {
 
         System.out.println("Note: all types are ranked, management or normal will not be sorted by time");
 
@@ -92,7 +92,7 @@ public class WorkRequestTests {
      *
      */
     @Test
-    public void java8_lambda_sort_vip_priority_by_rank() {
+    public void lambda_sort_vip_priority_by_rank() {
 
         System.out.println("VIP and Priority List");
 
@@ -121,7 +121,7 @@ public class WorkRequestTests {
      * Test to get an items object from the queue by id
      */
     @Test
-    public void testGetById() {
+    public void test_get_by_id() {
 
         Long id = 45l;
         Predicate<WorkRequest> byId = (wr) -> wr.getId() == id;
@@ -139,7 +139,7 @@ public class WorkRequestTests {
      *
      */
     @Test
-    public void java8_lambda_filter_results() {
+    public void lambda_filter_results() {
 
         Comparator<WorkRequest> byDate = (WorkRequest w1, WorkRequest w2) -> w1.getDateAdded().compareTo(w2.getDateAdded());
         Comparator<WorkRequest> byRank = (WorkRequest w1, WorkRequest w2) ->
@@ -185,7 +185,7 @@ public class WorkRequestTests {
      *
      */
     @Test
-    public void java8_calculate_wait_time() {
+    public void calculate_wait_time() {
 
         Date currentDate = new Date();
         long avgSecs = Util.getWaitTime(currentDate, workRequests);
@@ -200,7 +200,7 @@ public class WorkRequestTests {
      * @throws InterruptedException
      */
     @Test
-    public void java8_get_ids() throws InterruptedException {
+    public void get_ids() throws InterruptedException {
 
         List<Long> ids = Util.getWorkOrderIds(workRequests);
 
@@ -215,7 +215,7 @@ public class WorkRequestTests {
      * Test to get the position of an id in the queue
      */
     @Test
-    public void java8_get_position() throws InterruptedException {
+    public void get_position() throws InterruptedException {
 
         int pos = Util.getWorkRequestPosition(21l, workRequests);
         System.out.println("Position of ID 21: " + pos);
