@@ -37,7 +37,7 @@ public class WorkRequestController {
      *
      * @param id identifer of WorkRequest
      * @param date date of WorkRequest in format DD-MM-YYYY hh:mm:ss
-     * @return
+     * @return Ok, unprocessable or bad request status
      */
     @RequestMapping(value = "/put/{id}/{date}", method = RequestMethod.POST)
     public ResponseEntity<String> enqueueIdDate(@PathVariable("id") Long id, @PathVariable("date") String date) {

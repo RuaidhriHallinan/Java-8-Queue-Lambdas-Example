@@ -30,6 +30,7 @@ public class DateTimeUtil {
      *
      * @param date String of date to be composed into Date object
      * @return Date object representation of String
+     * @throws ParseException exception throws if date passed is not parseable
      */
     public static Date composeDate(String date) throws ParseException {
         Date startDate;

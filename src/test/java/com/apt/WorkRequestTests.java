@@ -27,6 +27,7 @@ public class WorkRequestTests {
     /**
      * Setup the tests
      * Populates the WorkRequest Queue @workRequests
+     *
      */
     @Before
     public void setup() throws InterruptedException {
@@ -197,10 +198,9 @@ public class WorkRequestTests {
     /**
      * Test to return a list of ids from the queue
      *
-     * @throws InterruptedException
      */
     @Test
-    public void get_ids() throws InterruptedException {
+    public void get_ids() {
 
         List<Long> ids = Util.getWorkOrderIds(workRequests);
 
@@ -213,9 +213,10 @@ public class WorkRequestTests {
 
     /**
      * Test to get the position of an id in the queue
+     *
      */
     @Test
-    public void get_position() throws InterruptedException {
+    public void get_position() {
 
         int pos = Util.getWorkRequestPosition(21l, workRequests);
         System.out.println("Position of ID 21: " + pos);
@@ -278,8 +279,10 @@ public class WorkRequestTests {
 
     /**
      * Method to populate the queue with random values
+     *
+     * @return WorkRequest PriorityQueue
      */
-    private PriorityQueue<WorkRequest> populateQueue() throws InterruptedException {
+    private PriorityQueue<WorkRequest> populateQueue() {
 
         workRequests = new PriorityQueue<WorkRequest>();
         Date dateAdded = new Date();

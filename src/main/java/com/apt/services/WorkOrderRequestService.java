@@ -73,7 +73,7 @@ public class WorkOrderRequestService {
     /**
      * Calculates the average (mean) wait time of objects in seconds
      *
-     * @param currentDate
+     * @param currentDate current date to compare against other dates in queue
      * @return average wait time in Date object
      */
     public Long getWaitTime(Date currentDate) {
