@@ -1,11 +1,11 @@
 # romeo-hotel-papa-quebec
-New repository for stubbed starting code
 
-Spring Boot REST application for processing Priority Queues. 
+Spring Boot REST web service application for processing Priority Queues. 
 
 Import project into IntelliJ
 
-Open application in intelliJ
-
 Execute Maven Goal 
 spring-boot:run
+
+For maven repositories, after you download the sources, you may need to execute 
+clean install 
